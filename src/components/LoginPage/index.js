@@ -2,6 +2,10 @@ import {Component} from 'react'
 
 import Cookies from 'js-cookie'
 
+import {Redirect} from 'react-router-dom'
+
+import NxtWatchContext from '../../context/nxtwatchContext'
+
 import {
   MainContainer,
   LoginContainter,
@@ -61,52 +65,63 @@ class Login extends Component {
 
   render() {
     const {username, password, error, errorMsg, showPassword} = this.state
+    const jwtToken = Cookies.get('jwt_token')
+    if (jwtToken !== undefined) {
+      return <Redirect to="/" />
+    }
     return (
-      <MainContainer>
-        <LoginContainter>
-          <ImageElement src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png" />
-          <FormElement onSubmit={this.submitButton}>
-            <LabelElement htmlFor="Username">USERNAME</LabelElement>
-            <InputElement
-              type="text"
-              value={username}
-              onChange={this.usernameChange}
-              placeholder="Username"
-              id="Username"
-            />
-            <LabelElement htmlFor="Password">PASSWORD</LabelElement>
-            {showPassword ? (
-              <InputElement
-                type="text"
-                value={password}
-                placeholder="Password"
-                onChange={this.passwordChange}
-                id="Password"
-              />
-            ) : (
-              <InputElement
-                type="password"
-                value={password}
-                placeholder="Password"
-                onChange={this.passwordChange}
-                id="Password"
-              />
-            )}
-            <Container>
-              <Checkbox
-                type="checkbox"
-                id="showPassword"
-                onClick={this.showPasswordClicked}
-              />
-              <CheckboxLabel htmlFor="showPassword">
-                Show Password
-              </CheckboxLabel>
-            </Container>
-            <ButtonElement type="submit">Login</ButtonElement>
-            {error ? <ErrorPara>*{errorMsg}</ErrorPara> : null}
-          </FormElement>
-        </LoginContainter>
-      </MainContainer>
+      <NxtWatchContext.Consumer>
+        {value => {
+          const {isDarkTheme} = value
+          return (
+            <MainContainer isDarkTheme={isDarkTheme}>
+              <LoginContainter>
+                <ImageElement src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png" />
+                <FormElement onSubmit={this.submitButton}>
+                  <LabelElement htmlFor="Username">USERNAME</LabelElement>
+                  <InputElement
+                    type="text"
+                    value={username}
+                    onChange={this.usernameChange}
+                    placeholder="Username"
+                    id="Username"
+                  />
+                  <LabelElement htmlFor="Password">PASSWORD</LabelElement>
+                  {showPassword ? (
+                    <InputElement
+                      type="text"
+                      value={password}
+                      placeholder="Password"
+                      onChange={this.passwordChange}
+                      id="Password"
+                    />
+                  ) : (
+                    <InputElement
+                      type="password"
+                      value={password}
+                      placeholder="Password"
+                      onChange={this.passwordChange}
+                      id="Password"
+                    />
+                  )}
+                  <Container>
+                    <Checkbox
+                      type="checkbox"
+                      id="showPassword"
+                      onClick={this.showPasswordClicked}
+                    />
+                    <CheckboxLabel htmlFor="showPassword">
+                      Show Password
+                    </CheckboxLabel>
+                  </Container>
+                  <ButtonElement type="submit">Login</ButtonElement>
+                  {error ? <ErrorPara>*{errorMsg}</ErrorPara> : null}
+                </FormElement>
+              </LoginContainter>
+            </MainContainer>
+          )
+        }}
+      </NxtWatchContext.Consumer>
     )
   }
 }

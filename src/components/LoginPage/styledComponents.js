@@ -6,7 +6,7 @@ export const MainContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #ffffff;
+  background-color: ${props => (props.isDarkTheme ? '#333333' : '#ffffff')};
 `
 export const LoginContainter = styled.div`
   height: 70%;
