@@ -9,6 +9,9 @@ const NxtWatchContext = React.createContext({
   saved: false,
   MenuClicked: () => {},
   changeTheme: () => {},
+  savedList: [],
+  addtoList: () => {},
+  removeFromList: () => {},
 })
 
 export default NxtWatchContext

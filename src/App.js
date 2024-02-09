@@ -26,7 +26,15 @@ class App extends Component {
     gaming: false,
     saved: false,
     activeTab: 'Home',
+    savedList: [],
   }
+
+  addtoList = item => {
+    console.log(item)
+    this.setState(prevState => ({savedList: [...prevState.savedList, item]}))
+  }
+
+  removeFromList = () => {}
 
   changeActiveTab = id => {
     this.setState({activeTab: id}, this.MenuClicked)
@@ -68,6 +76,8 @@ class App extends Component {
           changeTheme: this.changeTheme,
           MenuClicked: this.MenuClicked,
           changeActiveTab: this.changeActiveTab,
+          removeFromList: this.removeFromList,
+          addtoList: this.addtoList,
         }}
       >
         <Switch>

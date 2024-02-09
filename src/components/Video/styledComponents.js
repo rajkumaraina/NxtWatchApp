@@ -10,7 +10,7 @@ export const MainContainer = styled.div`
 `
 export const VideoContainer = styled.div`
   background-color: ${props => (props.isDarkTheme ? '#000000' : ' #f1f1f1')};
-  width: 75%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   padding: 15px;
@@ -51,7 +51,7 @@ export const Icons = styled.p`
   font-size: 25px;
   margin: 0px;
   margin-left: 20px;
-  color: ${props => (props.active ? '#ff0000' : props.color)};
+  color: ${props => (props.clicked ? ' #3b82f6' : '#475569')};
 `
 export const MenuName = styled.p`
   font-size: 18px;
@@ -155,4 +155,74 @@ export const FailureRetryButton = styled.button`
   outline: none;
   border-radius: 5px;
   border: 0 none;
+`
+export const Title = styled.p`
+  font-weight: 500;
+  font-size: 18px;
+  color: ${props => props.color};
+  margin-top: 18px;
+`
+export const DurationContainer = styled.div`
+  display: flex;
+`
+export const DotContainer = styled.div`
+  display: flex;
+`
+export const Details = styled.p`
+  font-size: 17px;
+  margin: 5px;
+  color: ${props => props.color};
+`
+export const Dot = styled(Details)`
+  font-size: 30px;
+  margin-top: 0px;
+  margin: 0;
+  padding-bottom: 14px;
+  color: ${props => props.color};
+`
+export const Text = styled(Details)`
+  color: ${props => (props.clicked ? ' #3b82f6' : '#475569')};
+  font-weight: 500;
+`
+export const BottomContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`
+export const IconsContainer = styled.div`
+  display: flex;
+`
+export const EachIcon = styled.div`
+  display: flex;
+  color: ${props => (props.clicked ? ' #3b82f6' : ': #ebebeb')};
+  cursor: pointer;
+  outline: none;
+`
+export const Horizontal = styled.hr`
+  border: 1px solid ${props => props.backgroundColor};
+  width: 100%;
+`
+export const DescriptionContainer = styled.div`
+  display: flex;
+  margin-top: 8px;
+`
+export const ChannelImg = styled.img`
+  width: 35px;
+  height: 35px;
+`
+export const Description = styled.div`
+  margin-left: 8px;
+  margin-left: 18px;
+`
+export const SubscriberPara = styled(Details)`
+  margin-top: 6px;
+  margin-left: 0px;
+  font-size: 14px;
+`
+export const ChannelName = styled(Title)`
+  margin-bottom: 0;
+  margin-top: 0;
+`
+export const ChannalDescription = styled(Details)`
+  margin-top: 25px;
 `

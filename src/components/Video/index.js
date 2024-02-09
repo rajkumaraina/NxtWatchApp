@@ -1,5 +1,15 @@
 import {Component, React} from 'react'
 
+import {formatDistanceToNow} from 'date-fns'
+
+import {AiOutlineLike} from 'react-icons/ai'
+
+import {BiDislike} from 'react-icons/bi'
+
+import {RiMenuAddFill} from 'react-icons/ri'
+
+import {BsDot} from 'react-icons/bs'
+
 import Loader from 'react-loader-spinner'
 
 import Cookies from 'js-cookie'
@@ -15,7 +25,25 @@ import {
   FailureImg,
   FailureHeading,
   FailurePara,
+  Icons,
+  IconsContainer,
   FailureRetryButton,
+  SubscriberPara,
+  Title,
+  BottomContainer,
+  DurationContainer,
+  Details,
+  Dot,
+  Text,
+  EachIcon,
+  Horizontal,
+  ChannalDescription,
+  DotContainer,
+  DescriptionContainer,
+  ChannelName,
+  ChannelImg,
+  Description,
+  SecondContainer,
 } from './styledComponents'
 
 import Header from '../Header'
@@ -34,6 +62,9 @@ class Video extends Component {
   state = {
     view: ApiView.loading,
     videoItem: [],
+    like: false,
+    disLike: false,
+    save: false,
   }
 
   componentDidMount = () => {
@@ -76,11 +107,24 @@ class Video extends Component {
     }
   }
 
+  likeClicked = () => {
+    this.setState(prevState => ({like: !prevState.like, disLike: false}))
+  }
+
+  dislikeClicked = () => {
+    this.setState(prevState => ({disLike: !prevState.disLike, like: false}))
+  }
+
+  saveClicked = () => {
+    this.setState(prevState => ({save: !prevState.save}))
+  }
+
   render() {
+    const {like, disLike, save} = this.state
     return (
       <NxtWatchContext.Consumer>
         {value => {
-          const {isDarkTheme} = value
+          const {isDarkTheme, addtoList} = value
           const backgroundColor = isDarkTheme ? '#606060' : '#e2e8f0'
           const color = isDarkTheme ? '#ffffff' : '#000000'
           const renderSuccessView = () => {
@@ -96,16 +140,76 @@ class Video extends Component {
               videoUrl,
             } = videoItem
             const {name, profileImageUrl, subscriberCount} = channel
+            const newDate = new Date(publishedAt)
+            const year = newDate.getFullYear()
+            const date = newDate.getDate()
+            const month = newDate.getMonth()
+            const duration = formatDistanceToNow(new Date(year, month, date))
+            const newDuration = duration.split(' ')
+            newDuration.splice(0, 1)
+            const finalDuration = newDuration.join(' ')
+            const saveClicked = () => {
+              this.setState(
+                prevState => ({save: !prevState.save}),
+                addtoList(videoItem),
+              )
+            }
             return (
-              <VideoContainer isDarkTheme={isDarkTheme}>
-                <ReactPlayer
-                  width="100%"
-                  height="380px"
-                  url={videoUrl}
-                  controls
-                />
-                <h1>jii</h1>
-              </VideoContainer>
+              <SecondContainer>
+                <VideoContainer isDarkTheme={isDarkTheme}>
+                  <ReactPlayer
+                    width="100%"
+                    height="460px"
+                    url={videoUrl}
+                    controls
+                  />
+                  <Title color={color}>{title}</Title>
+                  <BottomContainer>
+                    <DurationContainer>
+                      <Details color={color}>{viewCount} views</Details>
+                      <DotContainer>
+                        <Dot color={color}>
+                          <BsDot />
+                        </Dot>
+                        <Details color={color}>{finalDuration} ago</Details>
+                      </DotContainer>
+                    </DurationContainer>
+                    <IconsContainer>
+                      <EachIcon onClick={this.likeClicked} clicked={like}>
+                        <Icons clicked={like}>
+                          <AiOutlineLike />
+                        </Icons>
+                        <Text clicked={like}>Like</Text>
+                      </EachIcon>
+                      <EachIcon onClick={this.dislikeClicked} clicked={disLike}>
+                        <Icons clicked={disLike}>
+                          <BiDislike />
+                        </Icons>
+                        <Text clicked={disLike}>Dislike</Text>
+                      </EachIcon>
+                      <EachIcon onClick={saveClicked} clicked={save}>
+                        <Icons clicked={save}>
+                          <RiMenuAddFill />
+                        </Icons>
+                        <Text clicked={save}>Save</Text>
+                      </EachIcon>
+                    </IconsContainer>
+                  </BottomContainer>
+                  <Horizontal backgroundColor={color} />
+                  <DescriptionContainer>
+                    <ChannelImg src={profileImageUrl} />
+                    <Description>
+                      <ChannelName color={color}>{name}</ChannelName>
+                      <SubscriberPara color={color}>
+                        {subscriberCount} subscribers
+                      </SubscriberPara>
+                      <ChannalDescription color={color}>
+                        {description}
+                      </ChannalDescription>
+                    </Description>
+                  </DescriptionContainer>
+                </VideoContainer>
+              </SecondContainer>
             )
           }
 
