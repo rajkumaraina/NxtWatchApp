@@ -40,10 +40,19 @@ export const EachItem = styled.div`
   align-items: center;
 `
 export const Icons = styled.p`
-  font-size: 25px;
+  font-size: 45px;
   margin: 0px;
   margin-left: 20px;
-  color: ${props => (props.active ? '#ff0000' : props.color)};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  text-align: center;
+  height: 80px;
+  border-radius: 43px;
+  margin: 25px;
+  color: #ff0000;
+  background-color: ${props => props.backgroundColor};
 `
 export const MenuName = styled.p`
   font-size: 18px;
@@ -146,4 +155,13 @@ export const FailureRetryButton = styled.button`
   outline: none;
   border-radius: 5px;
   border: 0 none;
+`
+export const TopContainer = styled.div`
+  background: ${props => (props.isDarkTheme ? '#333333' : '#f3f3f3')};
+  display: flex;
+  height: 120px;
+  align-items: center;
+`
+export const TopHeading = styled.h1`
+  color: ${props => props.color};
 `

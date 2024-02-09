@@ -6,6 +6,7 @@ export const NavBar = styled.nav`
   justify-content: center;
   height: 10%;
   align-items: center;
+  background-color: ${props => (props.isDarkTheme ? '#333333' : '#ffffff')};
 `
 export const UnorderedList = styled.ul`
   display: flex;

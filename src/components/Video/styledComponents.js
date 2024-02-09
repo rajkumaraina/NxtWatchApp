@@ -1,13 +1,21 @@
 import styled from 'styled-components'
 
-export const MainContainer = styled.div`
-  background-color: ${props => (props.isDarkTheme ? '#181818' : '#f9f9f9')};
-  height: 100vh;
-`
 export const Container = styled.div`
   display: flex;
   height: 90%;
 `
+export const MainContainer = styled.div`
+  background-color: ${props => (props.isDarkTheme ? '#181818' : '#f9f9f9')};
+  height: 100vh;
+`
+export const VideoContainer = styled.div`
+  background-color: ${props => (props.isDarkTheme ? '#000000' : ' #f1f1f1')};
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+`
+
 export const FirstContainer = styled.div`
   width: 25%;
   height: 90vh;
@@ -115,7 +123,8 @@ export const VideosUnorderedList = styled.ul`
   flex-wrap: wrap;
 `
 export const LoadingContainer = styled.div`
-  height: 250px;
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

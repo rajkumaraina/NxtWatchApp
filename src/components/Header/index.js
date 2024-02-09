@@ -1,3 +1,7 @@
+import {withRouter} from 'react-router-dom'
+
+import Cookies from 'js-cookie'
+
 import {FaMoon} from 'react-icons/fa'
 
 import {IoMenu} from 'react-icons/io5'
@@ -21,15 +25,21 @@ import {
   IconsButton,
 } from './styledComponents'
 
-const Header = () => (
+const Header = props => (
   <NxtWatchContext.Consumer>
     {value => {
       const {isDarkTheme, changeTheme} = value
       const Theme = () => {
         changeTheme()
       }
+
+      const logout = () => {
+        Cookies.remove('jwt_token')
+        const {history} = props
+        history.replace('/login')
+      }
       return (
-        <NavBar>
+        <NavBar isDarkTheme={isDarkTheme}>
           <UnorderedList>
             <NavListItem>
               <WebsiteLogo
@@ -60,7 +70,11 @@ const Header = () => (
                 </SmallIconImages>
               </NavListItem>
               <NavListItem>
-                <LogoutButton type="button" isDarkTheme={isDarkTheme}>
+                <LogoutButton
+                  type="button"
+                  isDarkTheme={isDarkTheme}
+                  onClick={logout}
+                >
                   Logout
                 </LogoutButton>
                 <SmallIconImages>
@@ -75,4 +89,4 @@ const Header = () => (
   </NxtWatchContext.Consumer>
 )
 
-export default Header
+export default withRouter(Header)

@@ -1,40 +1,35 @@
 import {Component} from 'react'
 
-import {Redirect, Link} from 'react-router-dom'
-
 import Cookies from 'js-cookie'
 
 import Loader from 'react-loader-spinner'
 
-import {IoSearchOutline} from 'react-icons/io5'
-
-import '../../App.css'
+import {SiYoutubegaming} from 'react-icons/si'
 
 import Header from '../Header'
 
 import MenuItems from '../MenuItems'
 
-import PremiumPlan from '../PremiumPlan'
+import VideoList from '../VideosList'
 
-import EachVideo from '../EachVideo'
+import Game from '../Game'
 
 import NxtWatchContext from '../../context/nxtwatchContext'
 
 import {
   MainContainer,
   Container,
+  Icons,
   SecondContainer,
-  VideosContainer,
-  SearchContainer,
   LoadingContainer,
-  Search,
-  ButtonElement,
   VideosUnorderedList,
   FailureContainer,
   FailureImg,
   FailureHeading,
   FailurePara,
   FailureRetryButton,
+  TopContainer,
+  TopHeading,
 } from './styledComponents'
 
 const ApiView = {
@@ -43,22 +38,15 @@ const ApiView = {
   failure: 'Failure',
 }
 
-class Home extends Component {
-  state = {
-    premium: true,
-    searchInput: '',
-    search: '',
-    homeVidoes: [],
-    view: ApiView.loading,
-  }
+class Gaming extends Component {
+  state = {games: [], view: ApiView.loading}
 
   componentDidMount = () => {
-    this.getVideos()
+    this.getTrending()
   }
 
-  getVideos = async () => {
-    const {searchInput} = this.state
-    const url = `https://apis.ccbp.in/videos/all?search=${searchInput}`
+  getTrending = async () => {
+    const url = `https://apis.ccbp.in/videos/gaming`
     const jwtToken = Cookies.get('jwt_token')
     const options = {
       method: 'GET',
@@ -71,51 +59,31 @@ class Home extends Component {
       const data = await response.json()
       const updatedData = data.videos.map(each => ({
         id: each.id,
-        channel: {
-          name: each.channel.name,
-          profileImageUrl: each.channel.profile_image_url,
-        },
-        publishedAt: each.published_at,
         thumbnailUrl: each.thumbnail_url,
         viewCount: each.view_count,
         title: each.title,
       }))
-      this.setState({homeVidoes: updatedData, view: ApiView.success})
+      this.setState({games: updatedData, view: ApiView.success})
     } else {
       this.setState({view: ApiView.failure})
     }
   }
 
-  removePremium = () => {
-    this.setState({premium: false})
-  }
-
-  InputChange = event => {
-    this.setState({search: event.target.value})
-  }
-
-  SearchButton = () => {
-    const {search} = this.state
-    this.setState({searchInput: search, view: ApiView.loading}, this.getVideos)
-  }
-
   render() {
-    const {home, trending, saved, gaming, premium, homeVidoes} = this.state
-
+    const {games} = this.state
     return (
       <NxtWatchContext.Consumer>
         {value => {
-          const {isDarkTheme, activeTab, changeActiveTab} = value
-          if (activeTab !== 'Home') {
-            changeActiveTab('Home')
+          const {isDarkTheme, changeActiveTab, activeTab} = value
+          if (activeTab !== 'Gaming') {
+            changeActiveTab('Gaming')
           }
           const backgroundColor = isDarkTheme ? '#606060' : '#e2e8f0'
           const color = isDarkTheme ? '#ffffff' : '#000000'
-
           const renderSuccessView = () => (
             <VideosUnorderedList>
-              {homeVidoes.map(each => (
-                <EachVideo key={each.id} item={each} />
+              {games.map(each => (
+                <Game key={each.id} item={each} />
               ))}
             </VideosUnorderedList>
           )
@@ -162,36 +130,19 @@ class Home extends Component {
                 return null
             }
           }
-
           return (
             <MainContainer isDarkTheme={isDarkTheme}>
               <Header />
               <Container>
                 <MenuItems />
                 <SecondContainer>
-                  {premium ? (
-                    <PremiumPlan removePremium={this.removePremium} />
-                  ) : null}
-                  <VideosContainer isDarkTheme={isDarkTheme}>
-                    <SearchContainer isDarkTheme={isDarkTheme}>
-                      <Search
-                        type="search"
-                        isDarkTheme={isDarkTheme}
-                        color={color}
-                        placeholder="Search"
-                        onChange={this.InputChange}
-                      />
-                      <ButtonElement
-                        isDarkTheme={isDarkTheme}
-                        onClick={this.SearchButton}
-                        type="button"
-                        data-testid="searchButton"
-                      >
-                        <IoSearchOutline />
-                      </ButtonElement>
-                    </SearchContainer>
-                    {renderView()}
-                  </VideosContainer>
+                  <TopContainer isDarkTheme={isDarkTheme}>
+                    <Icons color={color} backgroundColor={backgroundColor}>
+                      <SiYoutubegaming />
+                    </Icons>
+                    <TopHeading color={color}>Gaming</TopHeading>
+                  </TopContainer>
+                  {renderView()}
                 </SecondContainer>
               </Container>
             </MainContainer>
@@ -201,5 +152,4 @@ class Home extends Component {
     )
   }
 }
-
-export default Home
+export default Gaming

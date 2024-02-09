@@ -1,40 +1,33 @@
 import {Component} from 'react'
 
-import {Redirect, Link} from 'react-router-dom'
-
 import Cookies from 'js-cookie'
 
 import Loader from 'react-loader-spinner'
 
-import {IoSearchOutline} from 'react-icons/io5'
-
-import '../../App.css'
+import {HiFire} from 'react-icons/hi'
 
 import Header from '../Header'
 
 import MenuItems from '../MenuItems'
 
-import PremiumPlan from '../PremiumPlan'
-
-import EachVideo from '../EachVideo'
+import VideoList from '../VideosList'
 
 import NxtWatchContext from '../../context/nxtwatchContext'
 
 import {
   MainContainer,
   Container,
+  Icons,
   SecondContainer,
-  VideosContainer,
-  SearchContainer,
   LoadingContainer,
-  Search,
-  ButtonElement,
   VideosUnorderedList,
   FailureContainer,
   FailureImg,
   FailureHeading,
   FailurePara,
   FailureRetryButton,
+  TopContainer,
+  TopHeading,
 } from './styledComponents'
 
 const ApiView = {
@@ -43,22 +36,15 @@ const ApiView = {
   failure: 'Failure',
 }
 
-class Home extends Component {
-  state = {
-    premium: true,
-    searchInput: '',
-    search: '',
-    homeVidoes: [],
-    view: ApiView.loading,
-  }
+class Trending extends Component {
+  state = {trendingVideos: [], view: ApiView.loading}
 
   componentDidMount = () => {
-    this.getVideos()
+    this.getTrending()
   }
 
-  getVideos = async () => {
-    const {searchInput} = this.state
-    const url = `https://apis.ccbp.in/videos/all?search=${searchInput}`
+  getTrending = async () => {
+    const url = `https://apis.ccbp.in/videos/trending`
     const jwtToken = Cookies.get('jwt_token')
     const options = {
       method: 'GET',
@@ -80,42 +66,27 @@ class Home extends Component {
         viewCount: each.view_count,
         title: each.title,
       }))
-      this.setState({homeVidoes: updatedData, view: ApiView.success})
+      this.setState({trendingVideos: updatedData, view: ApiView.success})
     } else {
       this.setState({view: ApiView.failure})
     }
   }
 
-  removePremium = () => {
-    this.setState({premium: false})
-  }
-
-  InputChange = event => {
-    this.setState({search: event.target.value})
-  }
-
-  SearchButton = () => {
-    const {search} = this.state
-    this.setState({searchInput: search, view: ApiView.loading}, this.getVideos)
-  }
-
   render() {
-    const {home, trending, saved, gaming, premium, homeVidoes} = this.state
-
+    const {trendingVideos} = this.state
     return (
       <NxtWatchContext.Consumer>
         {value => {
-          const {isDarkTheme, activeTab, changeActiveTab} = value
-          if (activeTab !== 'Home') {
-            changeActiveTab('Home')
-          }
+          const {isDarkTheme, changeActiveTab, activeTab} = value
           const backgroundColor = isDarkTheme ? '#606060' : '#e2e8f0'
           const color = isDarkTheme ? '#ffffff' : '#000000'
-
+          if (activeTab !== 'Trending') {
+            changeActiveTab('Trending')
+          }
           const renderSuccessView = () => (
             <VideosUnorderedList>
-              {homeVidoes.map(each => (
-                <EachVideo key={each.id} item={each} />
+              {trendingVideos.map(each => (
+                <VideoList key={each.id} item={each} />
               ))}
             </VideosUnorderedList>
           )
@@ -162,36 +133,19 @@ class Home extends Component {
                 return null
             }
           }
-
           return (
             <MainContainer isDarkTheme={isDarkTheme}>
               <Header />
               <Container>
                 <MenuItems />
                 <SecondContainer>
-                  {premium ? (
-                    <PremiumPlan removePremium={this.removePremium} />
-                  ) : null}
-                  <VideosContainer isDarkTheme={isDarkTheme}>
-                    <SearchContainer isDarkTheme={isDarkTheme}>
-                      <Search
-                        type="search"
-                        isDarkTheme={isDarkTheme}
-                        color={color}
-                        placeholder="Search"
-                        onChange={this.InputChange}
-                      />
-                      <ButtonElement
-                        isDarkTheme={isDarkTheme}
-                        onClick={this.SearchButton}
-                        type="button"
-                        data-testid="searchButton"
-                      >
-                        <IoSearchOutline />
-                      </ButtonElement>
-                    </SearchContainer>
-                    {renderView()}
-                  </VideosContainer>
+                  <TopContainer isDarkTheme={isDarkTheme}>
+                    <Icons color={color} backgroundColor={backgroundColor}>
+                      <HiFire />
+                    </Icons>
+                    <TopHeading color={color}>Trending</TopHeading>
+                  </TopContainer>
+                  {renderView()}
                 </SecondContainer>
               </Container>
             </MainContainer>
@@ -201,5 +155,4 @@ class Home extends Component {
     )
   }
 }
-
-export default Home
+export default Trending

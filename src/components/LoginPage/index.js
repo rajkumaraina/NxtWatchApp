@@ -73,20 +73,33 @@ class Login extends Component {
       <NxtWatchContext.Consumer>
         {value => {
           const {isDarkTheme} = value
+          const color = isDarkTheme ? '#ffffff' : '#000000'
           return (
             <MainContainer isDarkTheme={isDarkTheme}>
-              <LoginContainter>
-                <ImageElement src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png" />
+              <LoginContainter isDarkTheme={isDarkTheme}>
+                <ImageElement
+                  src={
+                    isDarkTheme
+                      ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
+                      : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
+                  }
+                />
                 <FormElement onSubmit={this.submitButton}>
-                  <LabelElement htmlFor="Username">USERNAME</LabelElement>
+                  <LabelElement htmlFor="Username" color={color}>
+                    USERNAME
+                  </LabelElement>
                   <InputElement
                     type="text"
                     value={username}
                     onChange={this.usernameChange}
                     placeholder="Username"
                     id="Username"
+                    color={color}
+                    isDarkTheme={isDarkTheme}
                   />
-                  <LabelElement htmlFor="Password">PASSWORD</LabelElement>
+                  <LabelElement htmlFor="Password" color={color}>
+                    PASSWORD
+                  </LabelElement>
                   {showPassword ? (
                     <InputElement
                       type="text"
@@ -94,6 +107,8 @@ class Login extends Component {
                       placeholder="Password"
                       onChange={this.passwordChange}
                       id="Password"
+                      isDarkTheme={isDarkTheme}
+                      color={color}
                     />
                   ) : (
                     <InputElement
@@ -102,6 +117,8 @@ class Login extends Component {
                       placeholder="Password"
                       onChange={this.passwordChange}
                       id="Password"
+                      isDarkTheme={isDarkTheme}
+                      color={color}
                     />
                   )}
                   <Container>
@@ -110,7 +127,7 @@ class Login extends Component {
                       id="showPassword"
                       onClick={this.showPasswordClicked}
                     />
-                    <CheckboxLabel htmlFor="showPassword">
+                    <CheckboxLabel htmlFor="showPassword" color={color}>
                       Show Password
                     </CheckboxLabel>
                   </Container>
