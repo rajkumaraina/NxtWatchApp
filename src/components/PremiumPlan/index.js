@@ -16,11 +16,11 @@ const PremiumPlan = props => {
     removePremium()
   }
   return (
-    <PremiumContainer>
+    <PremiumContainer data-testid="banner">
       <FirstContainer>
         <WebsiteLogo
           src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
-          alt="websiteLogo"
+          alt="nxt watch logo"
         />
         <Para>Buy Nxt Watch Premium prepaid plans with UPI</Para>
         <Button type="button">GET IT NOW</Button>

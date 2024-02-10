@@ -42,10 +42,10 @@ class Gaming extends Component {
   state = {games: [], view: ApiView.loading}
 
   componentDidMount = () => {
-    this.getTrending()
+    this.getGaming()
   }
 
-  getTrending = async () => {
+  getGaming = async () => {
     const url = `https://apis.ccbp.in/videos/gaming`
     const jwtToken = Cookies.get('jwt_token')
     const options = {
@@ -67,6 +67,10 @@ class Gaming extends Component {
     } else {
       this.setState({view: ApiView.failure})
     }
+  }
+
+  RetryButton = () => {
+    this.setState({view: ApiView.loading}, this.getGaming)
   }
 
   render() {
@@ -113,7 +117,9 @@ class Gaming extends Component {
                 We are having some trouble to complete your request.
               </FailurePara>
               <FailurePara color={color}>Please try again.</FailurePara>
-              <FailureRetryButton type="button">Retry</FailureRetryButton>
+              <FailureRetryButton type="button" onClick={this.RetryButton}>
+                Retry
+              </FailureRetryButton>
             </FailureContainer>
           )
 
@@ -131,11 +137,11 @@ class Gaming extends Component {
             }
           }
           return (
-            <MainContainer isDarkTheme={isDarkTheme}>
+            <MainContainer isDarkTheme={isDarkTheme} data-testid="gaming">
               <Header />
               <Container>
                 <MenuItems />
-                <SecondContainer>
+                <SecondContainer data-testid="banner">
                   <TopContainer isDarkTheme={isDarkTheme}>
                     <Icons color={color} backgroundColor={backgroundColor}>
                       <SiYoutubegaming />

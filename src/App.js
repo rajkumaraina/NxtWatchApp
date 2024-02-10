@@ -1,4 +1,4 @@
-import {Switch, Route} from 'react-router-dom'
+import {Switch, Route, Redirect} from 'react-router-dom'
 
 import {Component} from 'react'
 
@@ -13,6 +13,10 @@ import Video from './components/Video'
 import Trending from './components/Trending'
 
 import Gaming from './components/Gaming'
+
+import SavedVideos from './components/savedVideos'
+
+import NotFound from './components/NotFound'
 
 import NxtWatchContext from './context/nxtwatchContext'
 
@@ -30,8 +34,15 @@ class App extends Component {
   }
 
   addtoList = item => {
-    console.log(item)
-    this.setState(prevState => ({savedList: [...prevState.savedList, item]}))
+    const {savedList} = this.state
+    const value = savedList.find(each => each.id === item.id)
+    if (value === undefined) {
+      this.setState(prevState => ({savedList: [...prevState.savedList, item]}))
+    } else {
+      this.setState(prevState => ({
+        savedList: prevState.savedList.filter(each => each.id !== item.id),
+      }))
+    }
   }
 
   removeFromList = () => {}
@@ -63,7 +74,15 @@ class App extends Component {
   }
 
   render() {
-    const {isDarkTheme, home, trending, saved, gaming, activeTab} = this.state
+    const {
+      isDarkTheme,
+      home,
+      trending,
+      saved,
+      gaming,
+      activeTab,
+      savedList,
+    } = this.state
     return (
       <NxtWatchContext.Provider
         value={{
@@ -71,6 +90,7 @@ class App extends Component {
           home,
           trending,
           saved,
+          savedList,
           activeTab,
           gaming,
           changeTheme: this.changeTheme,
@@ -86,6 +106,9 @@ class App extends Component {
           <ProtectedRoute exact path="/videos/:id" component={Video} />
           <ProtectedRoute exact path="/trending" component={Trending} />
           <ProtectedRoute exact path="/gaming" component={Gaming} />
+          <ProtectedRoute exact path="/saved-videos" component={SavedVideos} />
+          <Route path="/not-found" component={NotFound} />
+          <Redirect to="/not-found" />
         </Switch>
       </NxtWatchContext.Provider>
     )

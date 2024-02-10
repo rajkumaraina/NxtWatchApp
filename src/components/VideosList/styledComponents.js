@@ -3,7 +3,6 @@ import styled from 'styled-components'
 export const ListItem = styled.li`
   list-style-type: none;
   margin: 5px;
-  width: 95%;
   display: flex;
   height: 250px;
 `

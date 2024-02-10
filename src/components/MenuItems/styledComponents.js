@@ -45,9 +45,10 @@ export const ContactContainer = styled.div`
   margin-left: 25px;
   width: 60%;
 `
-export const ContactHeading = styled.h1`
+export const ContactHeading = styled.p`
   color: ${props => (props.isDarkTheme ? '#ffffff' : '#000000')};
   font-size: 20px;
+  font-weight: bold;
 `
 export const SocialIconsContainer = styled.div`
   display: flex;

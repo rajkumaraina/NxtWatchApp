@@ -72,6 +72,10 @@ class Trending extends Component {
     }
   }
 
+  RetryButton = () => {
+    this.setState({view: ApiView.loading}, this.getTrending)
+  }
+
   render() {
     const {trendingVideos} = this.state
     return (
@@ -113,10 +117,12 @@ class Trending extends Component {
                 Oops! Something Went Wrong
               </FailureHeading>
               <FailurePara color={color}>
-                We are having some trouble to complete your request.
+                We are having some trouble
               </FailurePara>
               <FailurePara color={color}>Please try again.</FailurePara>
-              <FailureRetryButton type="button">Retry</FailureRetryButton>
+              <FailureRetryButton type="button" onClick={this.RetryButton}>
+                Retry
+              </FailureRetryButton>
             </FailureContainer>
           )
 
@@ -134,11 +140,11 @@ class Trending extends Component {
             }
           }
           return (
-            <MainContainer isDarkTheme={isDarkTheme}>
+            <MainContainer isDarkTheme={isDarkTheme} data-testid="trending">
               <Header />
               <Container>
                 <MenuItems />
-                <SecondContainer>
+                <SecondContainer data-testid="banner">
                   <TopContainer isDarkTheme={isDarkTheme}>
                     <Icons color={color} backgroundColor={backgroundColor}>
                       <HiFire />

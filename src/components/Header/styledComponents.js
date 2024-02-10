@@ -77,3 +77,37 @@ export const SmallIconImages = styled.p`
     display: flex;
   }
 `
+export const PopUpContainer = styled.div`
+  width: 450px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: ${props => props.buttonBackgroundColor};
+  border-radius: 15px;
+`
+export const PopPara = styled.p`
+  color: ${props => (props.isDarkTheme ? '#ffffff' : '#00306e')};
+  font-size: 18px;
+  font-weight: 500;
+`
+export const PopButtonContainer = styled.div`
+  display: flex;
+`
+export const PoPButton1 = styled.button`
+  margin: 8px;
+  padding: 8px;
+  border: 1px solid ${props => (props.isDarkTheme ? '#ffffff' : '#000000')};
+  background-color: transparent;
+  color: ${props => (props.isDarkTheme ? '#ffffff' : '#000000')};
+  cursor: pointer;
+`
+
+export const PoPButton2 = styled.button`
+  margin: 8px;
+  padding: 8px;
+  border: ${props => (props.active ? '1px solid #333333' : '0 none')};
+  background-color: #3b82f6;
+  color: #ffffff;
+  cursor: pointer;
+`

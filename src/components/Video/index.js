@@ -107,6 +107,10 @@ class Video extends Component {
     }
   }
 
+  RetryButton = () => {
+    this.setState({view: ApiView.loading}, this.getVideo)
+  }
+
   likeClicked = () => {
     this.setState(prevState => ({like: !prevState.like, disLike: false}))
   }
@@ -120,11 +124,13 @@ class Video extends Component {
   }
 
   render() {
-    const {like, disLike, save} = this.state
+    const {like, disLike} = this.state
+    let {save} = this.state
+    let saveValue
     return (
       <NxtWatchContext.Consumer>
         {value => {
-          const {isDarkTheme, addtoList} = value
+          const {isDarkTheme, addtoList, savedList} = value
           const backgroundColor = isDarkTheme ? '#606060' : '#e2e8f0'
           const color = isDarkTheme ? '#ffffff' : '#000000'
           const renderSuccessView = () => {
@@ -139,6 +145,14 @@ class Video extends Component {
               description,
               videoUrl,
             } = videoItem
+            const Exits = savedList.find(each => each.id === id)
+            if (Exits !== undefined) {
+              save = true
+              saveValue = 'Saved'
+            } else {
+              save = false
+              saveValue = 'Save'
+            }
             const {name, profileImageUrl, subscriberCount} = channel
             const newDate = new Date(publishedAt)
             const year = newDate.getFullYear()
@@ -155,7 +169,7 @@ class Video extends Component {
               )
             }
             return (
-              <SecondContainer>
+              <SecondContainer data-testid="banner">
                 <VideoContainer isDarkTheme={isDarkTheme}>
                   <ReactPlayer
                     width="100%"
@@ -175,29 +189,47 @@ class Video extends Component {
                       </DotContainer>
                     </DurationContainer>
                     <IconsContainer>
-                      <EachIcon onClick={this.likeClicked} clicked={like}>
+                      <EachIcon clicked={like}>
                         <Icons clicked={like}>
                           <AiOutlineLike />
                         </Icons>
-                        <Text clicked={like}>Like</Text>
+                        <Text
+                          type="button"
+                          clicked={like}
+                          onClick={this.likeClicked}
+                        >
+                          Like
+                        </Text>
                       </EachIcon>
-                      <EachIcon onClick={this.dislikeClicked} clicked={disLike}>
+                      <EachIcon clicked={disLike}>
                         <Icons clicked={disLike}>
                           <BiDislike />
                         </Icons>
-                        <Text clicked={disLike}>Dislike</Text>
+                        <Text
+                          type="button"
+                          clicked={disLike}
+                          onClick={this.dislikeClicked}
+                        >
+                          Dislike
+                        </Text>
                       </EachIcon>
-                      <EachIcon onClick={saveClicked} clicked={save}>
+                      <EachIcon clicked={save}>
                         <Icons clicked={save}>
                           <RiMenuAddFill />
                         </Icons>
-                        <Text clicked={save}>Save</Text>
+                        <Text
+                          type="button"
+                          clicked={save}
+                          onClick={saveClicked}
+                        >
+                          {saveValue}
+                        </Text>
                       </EachIcon>
                     </IconsContainer>
                   </BottomContainer>
                   <Horizontal backgroundColor={color} />
                   <DescriptionContainer>
-                    <ChannelImg src={profileImageUrl} />
+                    <ChannelImg src={profileImageUrl} alt="channel logo" />
                     <Description>
                       <ChannelName color={color}>{name}</ChannelName>
                       <SubscriberPara color={color}>
@@ -214,7 +246,7 @@ class Video extends Component {
           }
 
           const renderLoadingView = () => (
-            <LoadingContainer>
+            <LoadingContainer data-testid="banner">
               <div className="loader-container" data-testid="loader">
                 <Loader type="ThreeDots" color={color} height="50" width="50" />
               </div>
@@ -222,7 +254,7 @@ class Video extends Component {
           )
 
           const renderFailureView = () => (
-            <FailureContainer>
+            <FailureContainer data-testid="banner">
               <FailureImg
                 src={
                   isDarkTheme
@@ -235,10 +267,12 @@ class Video extends Component {
                 Oops! Something Went Wrong
               </FailureHeading>
               <FailurePara color={color}>
-                We are having some trouble to complete your request.
+                We are having some trouble to complete your request. Please try
+                again.
               </FailurePara>
-              <FailurePara color={color}>Please try again.</FailurePara>
-              <FailureRetryButton type="button">Retry</FailureRetryButton>
+              <FailureRetryButton type="button" onClick={this.RetryButton}>
+                Retry
+              </FailureRetryButton>
             </FailureContainer>
           )
 
@@ -256,7 +290,10 @@ class Video extends Component {
             }
           }
           return (
-            <MainContainer isDarkTheme={isDarkTheme}>
+            <MainContainer
+              isDarkTheme={isDarkTheme}
+              data-testid="videoItemDetails"
+            >
               <Header />
               <Container>
                 <MenuItems />

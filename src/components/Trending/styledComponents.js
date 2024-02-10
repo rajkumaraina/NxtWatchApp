@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const MainContainer = styled.div`
-  background-color: ${props => (props.isDarkTheme ? '#181818' : '#f9f9f9')};
+  background-color: ${props => (props.isDarkTheme ? '#0f0f0f' : '#f9f9f9')};
   height: 100vh;
 `
 export const Container = styled.div`
@@ -157,7 +157,7 @@ export const FailureRetryButton = styled.button`
   border: 0 none;
 `
 export const TopContainer = styled.div`
-  background: ${props => (props.isDarkTheme ? '#333333' : '#f3f3f3')};
+  background: ${props => (props.isDarkTheme ? '#212121' : '#f3f3f3')};
   display: flex;
   height: 120px;
   align-items: center;

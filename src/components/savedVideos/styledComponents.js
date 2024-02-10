@@ -1,21 +1,13 @@
 import styled from 'styled-components'
 
-export const Container = styled.div`
-  display: flex;
-  height: 90%;
-`
 export const MainContainer = styled.div`
   background-color: ${props => (props.isDarkTheme ? '#0f0f0f' : '#f9f9f9')};
   height: 100vh;
 `
-export const VideoContainer = styled.div`
-  background-color: ${props => (props.isDarkTheme ? '#000000' : ' #f1f1f1')};
-  width: 100%;
+export const Container = styled.div`
   display: flex;
-  flex-direction: column;
-  padding: 15px;
+  height: 90%;
 `
-
 export const FirstContainer = styled.div`
   width: 25%;
   height: 90vh;
@@ -32,6 +24,7 @@ export const SecondContainer = styled.div`
 export const MenuUnorderedList = styled.ul`
   padding: 0px;
   display: flex;
+  width: 100%;
   flex-direction: column;
 `
 export const MenuListItems = styled.li`
@@ -48,10 +41,19 @@ export const EachItem = styled.div`
   align-items: center;
 `
 export const Icons = styled.p`
-  font-size: 25px;
+  font-size: 45px;
   margin: 0px;
   margin-left: 20px;
-  color: ${props => (props.clicked ? ' #3b82f6' : '#475569')};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  text-align: center;
+  height: 80px;
+  border-radius: 43px;
+  margin: 25px;
+  color: #ff0000;
+  background-color: ${props => props.backgroundColor};
 `
 export const MenuName = styled.p`
   font-size: 18px;
@@ -83,7 +85,6 @@ export const Para = styled.p`
   font-size: 17px;
 `
 export const VideosContainer = styled.div`
-  height: 100%;
   background-color: ${props => (props.isDarkTheme ? '#000000' : ' #f1f1f1')};
   padding-top: 30px;
 `
@@ -119,12 +120,12 @@ export const ButtonElement = styled.button`
 export const VideosUnorderedList = styled.ul`
   margin-left: 18px;
   padding: 0px;
+  height: 100%;
   display: flex;
   flex-wrap: wrap;
 `
 export const LoadingContainer = styled.div`
-  height: 100%;
-  width: 100%;
+  height: 250px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -132,6 +133,7 @@ export const LoadingContainer = styled.div`
 `
 export const FailureContainer = styled(LoadingContainer)`
   height: 100%;
+  width: 100%;
 `
 
 export const FailureImg = styled.img`
@@ -156,81 +158,12 @@ export const FailureRetryButton = styled.button`
   border-radius: 5px;
   border: 0 none;
 `
-export const Title = styled.p`
-  font-weight: 500;
-  font-size: 18px;
+export const TopContainer = styled.div`
+  background: ${props => (props.isDarkTheme ? '#212121' : '#f3f3f3')};
+  display: flex;
+  height: 120px;
+  align-items: center;
+`
+export const TopHeading = styled.h1`
   color: ${props => props.color};
-  margin-top: 18px;
-`
-export const DurationContainer = styled.div`
-  display: flex;
-`
-export const DotContainer = styled.div`
-  display: flex;
-`
-export const Details = styled.p`
-  font-size: 17px;
-  margin: 5px;
-  color: ${props => props.color};
-`
-export const Dot = styled(Details)`
-  font-size: 30px;
-  margin-top: 0px;
-  margin: 0;
-  padding-bottom: 14px;
-  color: ${props => props.color};
-`
-export const Text = styled.button`
-  color: ${props => (props.clicked ? ' #2563eb' : '#64748b')};
-  font-size: 17px;
-  margin: 5px;
-  background-color:transparent;
-  border:0 none;
-  cursor: pointer;
-  outline:none
-  font-weight: 500;
-`
-export const BottomContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-`
-export const IconsContainer = styled.div`
-  display: flex;
-`
-export const EachIcon = styled.div`
-  display: flex;
-  color: ${props => (props.clicked ? ' #2563eb' : '#64748b')};
-  cursor: pointer;
-  border: 0 none;
-  background-color: transparent;
-  outline: none;
-`
-export const Horizontal = styled.hr`
-  border: 1px solid ${props => props.backgroundColor};
-  width: 100%;
-`
-export const DescriptionContainer = styled.div`
-  display: flex;
-  margin-top: 8px;
-`
-export const ChannelImg = styled.img`
-  width: 35px;
-  height: 35px;
-`
-export const Description = styled.div`
-  margin-left: 8px;
-  margin-left: 18px;
-`
-export const SubscriberPara = styled(Details)`
-  margin-top: 6px;
-  margin-left: 0px;
-  font-size: 14px;
-`
-export const ChannelName = styled(Title)`
-  margin-bottom: 0;
-  margin-top: 0;
-`
-export const ChannalDescription = styled(Details)`
-  margin-top: 25px;
 `

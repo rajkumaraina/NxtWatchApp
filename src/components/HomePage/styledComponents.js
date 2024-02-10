@@ -75,7 +75,6 @@ export const Para = styled.p`
   font-size: 17px;
 `
 export const VideosContainer = styled.div`
-  height: 100%;
   background-color: ${props => (props.isDarkTheme ? '#000000' : ' #f1f1f1')};
   padding-top: 30px;
 `
@@ -110,12 +109,14 @@ export const ButtonElement = styled.button`
 `
 export const VideosUnorderedList = styled.ul`
   margin-left: 18px;
+  margin-bottom: 0px;
   padding: 0px;
   display: flex;
   flex-wrap: wrap;
 `
 export const LoadingContainer = styled.div`
   height: 250px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -123,11 +124,14 @@ export const LoadingContainer = styled.div`
 `
 export const FailureContainer = styled(LoadingContainer)`
   height: 100%;
+  margin: 25px;
+  margin-bottom: 0;
 `
 
 export const FailureImg = styled.img`
   width: 350px;
   height: 350px;
+  margin: 8px;
 `
 export const FailureHeading = styled.h1`
   color: ${props => props.color};

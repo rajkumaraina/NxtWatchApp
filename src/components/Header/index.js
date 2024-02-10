@@ -1,6 +1,10 @@
-import {withRouter} from 'react-router-dom'
+import Popup from 'reactjs-popup'
+
+import {withRouter, Link} from 'react-router-dom'
 
 import Cookies from 'js-cookie'
+
+import '../../App.css'
 
 import {FaMoon} from 'react-icons/fa'
 
@@ -22,13 +26,21 @@ import {
   LogoutButton,
   SmallIconImages,
   WebsiteLogo,
+  PoPButton1,
+  PoPButton2,
   IconsButton,
+  PopUpContainer,
+  PopPara,
+  PopButtonContainer,
 } from './styledComponents'
 
 const Header = props => (
   <NxtWatchContext.Consumer>
     {value => {
       const {isDarkTheme, changeTheme} = value
+      const backgroundColor = isDarkTheme ? '#606060' : '#e2e8f0'
+      const buttonBackgroundColor = isDarkTheme ? '#000000' : '#ffffff'
+      const color = isDarkTheme ? '#ffffff' : '#000000'
       const Theme = () => {
         changeTheme()
       }
@@ -41,16 +53,19 @@ const Header = props => (
       return (
         <NavBar isDarkTheme={isDarkTheme}>
           <UnorderedList>
-            <NavListItem>
-              <WebsiteLogo
-                src={
-                  isDarkTheme
-                    ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
-                    : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
-                }
-                alt="websiteLogo"
-              />
-            </NavListItem>
+            <Link to="/" className="linkElement">
+              <NavListItem>
+                <WebsiteLogo
+                  src={
+                    isDarkTheme
+                      ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
+                      : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
+                  }
+                  alt="website logo"
+                />
+              </NavListItem>
+            </Link>
+
             <NavItemContainer>
               <NavListItem>
                 <IconsButton type="button" onClick={Theme} data-testid="theme">
@@ -70,13 +85,44 @@ const Header = props => (
                 </SmallIconImages>
               </NavListItem>
               <NavListItem>
-                <LogoutButton
-                  type="button"
-                  isDarkTheme={isDarkTheme}
-                  onClick={logout}
+                <Popup
+                  modal
+                  trigger={
+                    <LogoutButton type="button" isDarkTheme={isDarkTheme}>
+                      Logout
+                    </LogoutButton>
+                  }
+                  className="popup-content"
                 >
-                  Logout
-                </LogoutButton>
+                  {close => (
+                    <>
+                      <PopUpContainer
+                        buttonBackgroundColor={buttonBackgroundColor}
+                      >
+                        <PopPara isDarkTheme={isDarkTheme}>
+                          Are you sure, you want to logout
+                        </PopPara>
+                        <PopButtonContainer>
+                          <PoPButton1
+                            isDarkTheme={isDarkTheme}
+                            type="button"
+                            className="trigger-button"
+                            onClick={() => close()}
+                          >
+                            Cancel
+                          </PoPButton1>
+                          <PoPButton2
+                            type="button"
+                            onClick={logout}
+                            isDarkTheme={isDarkTheme}
+                          >
+                            Confirm
+                          </PoPButton2>
+                        </PopButtonContainer>
+                      </PopUpContainer>
+                    </>
+                  )}
+                </Popup>
                 <SmallIconImages>
                   <FiLogOut />
                 </SmallIconImages>

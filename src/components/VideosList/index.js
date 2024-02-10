@@ -40,18 +40,18 @@ const VideoList = props => {
         return (
           <Link to={`/videos/${id}`} className="linkElement">
             <ListItem>
-              <Img src={thumbnailUrl} alt={title} />
+              <Img src={thumbnailUrl} alt="video thumbnail" />
               <DescriptionContainer>
                 <Description>
                   <Title color={color}>{title}</Title>
                   <Details color={color}>{name}</Details>
                   <DurationContainer>
-                    <Details color={color}>{viewCount} views</Details>
+                    <Details color={color}>{viewCount}</Details>
                     <DotContainer>
                       <Dot color={color}>
                         <BsDot />
                       </Dot>
-                      <Details color={color}>{finalDuration} ago</Details>
+                      <Details color={color}>{finalDuration}</Details>
                     </DotContainer>
                   </DurationContainer>
                 </Description>

@@ -41,9 +41,9 @@ const EachVideo = props => {
         return (
           <Link to={`/videos/${id}`} className="linkElement">
             <ListItem>
-              <Img src={thumbnailUrl} alt={title} />
+              <Img src={thumbnailUrl} alt="video thumbnail" />
               <DescriptionContainer>
-                <ChannelImg src={profileImageUrl} />
+                <ChannelImg src={profileImageUrl} alt="channel logo" />
                 <Description>
                   <Title color={color}>{title}</Title>
                   <Details color={color}>{name}</Details>

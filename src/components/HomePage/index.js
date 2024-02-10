@@ -94,6 +94,10 @@ class Home extends Component {
     this.setState({search: event.target.value})
   }
 
+  RetryButton = () => {
+    this.setState({view: ApiView.loading}, this.getVideos)
+  }
+
   SearchButton = () => {
     const {search} = this.state
     this.setState({searchInput: search, view: ApiView.loading}, this.getVideos)
@@ -114,9 +118,23 @@ class Home extends Component {
 
           const renderSuccessView = () => (
             <VideosUnorderedList>
-              {homeVidoes.map(each => (
-                <EachVideo key={each.id} item={each} />
-              ))}
+              {homeVidoes.length > 0 ? (
+                homeVidoes.map(each => <EachVideo key={each.id} item={each} />)
+              ) : (
+                <FailureContainer>
+                  <FailureImg
+                    src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png "
+                    alt="no videos"
+                  />
+                  <FailureHeading color={color}>
+                    No Search results found
+                  </FailureHeading>
+                  <FailurePara color={color}>
+                    Try different key words or remove search filters
+                  </FailurePara>
+                  <FailureRetryButton type="button">Retry</FailureRetryButton>
+                </FailureContainer>
+              )}
             </VideosUnorderedList>
           )
 
@@ -145,7 +163,9 @@ class Home extends Component {
                 We are having some trouble to complete your request.
               </FailurePara>
               <FailurePara color={color}>Please try again.</FailurePara>
-              <FailureRetryButton type="button">Retry</FailureRetryButton>
+              <FailureRetryButton type="button" onClick={this.RetryButton}>
+                Retry
+              </FailureRetryButton>
             </FailureContainer>
           )
 
@@ -164,7 +184,7 @@ class Home extends Component {
           }
 
           return (
-            <MainContainer isDarkTheme={isDarkTheme}>
+            <MainContainer isDarkTheme={isDarkTheme} data-testid="home">
               <Header />
               <Container>
                 <MenuItems />

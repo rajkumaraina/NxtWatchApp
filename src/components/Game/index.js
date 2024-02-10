@@ -10,8 +10,6 @@ import {
   Title,
   Details,
   DurationContainer,
-  DotContainer,
-  Dot,
 } from './styledComponents'
 
 import '../../App.css'
@@ -27,7 +25,7 @@ const VideoList = props => {
         return (
           <Link to={`/videos/${id}`} className="linkElement">
             <ListItem>
-              <Img src={thumbnailUrl} alt={title} />
+              <Img src={thumbnailUrl} alt="video thumbnail" />
               <DescriptionContainer>
                 <Description>
                   <Title color={color}>{title}</Title>
